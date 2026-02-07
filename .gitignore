@@ -211,3 +211,6 @@ __marimo__/
 
 # Database
 *.sqlite3
+
+# Entornos virtuales
+djangoenv/
