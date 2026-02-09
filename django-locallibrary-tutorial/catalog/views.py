@@ -32,6 +32,7 @@ def index(request):
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
+        'num_genres': Genre.objects.count(),
         'word_to_search': word_to_search,
         'num_books_contain': num_books_contain,
         'num_genre_contain': num_genre_contain,
@@ -45,14 +46,14 @@ from django.views import generic
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 10
+    paginate_by = 2
 
 class BookDetailView(generic.DetailView):
     model = Book
 
 class AuthorListView(generic.ListView):
     model = Author
-    paginate_by = 10    
+    paginate_by = 2    
 
 class AuthorDetailView(generic.DetailView):
     model = Author
