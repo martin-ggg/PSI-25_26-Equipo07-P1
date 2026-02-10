@@ -27,6 +27,11 @@ def index(request):
         name__icontains=word_to_search
     ).count()
 
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    num_visits += 1
+    request.session['num_visits'] = num_visits
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -36,6 +41,7 @@ def index(request):
         'word_to_search': word_to_search,
         'num_books_contain': num_books_contain,
         'num_genre_contain': num_genre_contain,
+        'num_visits': num_visits,
     }
 
     # Render the HTML template index.html with the data in the context variable

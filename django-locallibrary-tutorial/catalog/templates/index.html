@@ -20,4 +20,7 @@
     <li><strong>Books containing the letter '{{ word_to_search }}' in the title:</strong> {{ num_books_contain }}</li>
     <li><strong>Genres with "{{ word_to_search }}" in the name:</strong> {{ num_genre_contain }}</li>
 </ul>
+<p>
+  You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.
+</p>
 {% endblock %}
