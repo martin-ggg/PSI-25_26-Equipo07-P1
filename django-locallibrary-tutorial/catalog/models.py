@@ -6,6 +6,7 @@ from django.urls import reverse  # To generate URLS by reversing URL patterns
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 
+
 class Genre(models.Model):
     """Model representing a book genre (e.g. Science Fiction, Non Fiction)."""
     name = models.CharField(
@@ -135,6 +136,7 @@ class BookInstance(models.Model):
     class Meta:
         ordering = ['due_back']
         permissions = (("can_mark_returned", "Set book as returned"),)
+        
 
     def get_absolute_url(self):
         """Returns the url to access a particular book instance."""

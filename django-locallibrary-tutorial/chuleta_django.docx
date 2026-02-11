@@ -1,0 +1,132 @@
+﻿
+
+USUARIOS -LOCALLIBRARY
+martin-martin123
+guti-contraseña
+
+
+
+
+ENTORNO
+crear entorno → python3.11 -m venv p1_env
+activar entorno → source p1_env/bin/activate
+requirements → pip3 install -r requirements.txt­
+
+
+ARRRANCAR PROYECTO DJANGO YA HECHO
+reiniciar el servidor de base de datos PostgreSQL → sudo sistemctl  restart postgresql
+
+borrar posible base de datos previa → dropdb -U alumnodb -h localhost psi
+crearla de nuevo → createdb -U alumnodb -h localhost psi
+
+
+hacer y aplicar migraciones si es necesario → python manage.py makemigrations + python manage.py migrate
+
+populate → python populate_catalog.py
+
+arrancar → python mangae.py runserver <puerto deseado>
+
+
+
+CREAR UN NUEVO PROYECTO DJANGO
+
+Generar la carpeta base → django-admin startproject nombre_proyecto
+
+Reiniciar servicio → sudo systemctl restart postgresql
+Crear la base de datos vacía → createdb -U alumnodb -h localhost psi
+Conectar la BBDD(settings.py) →	
+	DATABASES = {
+    		'default': {
+        	'ENGINE': 'django.db.backends.postgresql',
+        	'NAME': 'psi',
+        	'USER': 'alumnodb',
+        	'PASSWORD': 'tu_contraseña', # La que tenga el usuario alumnodb
+        	'HOST': 'localhost',
+        	'PORT': '5432',
+    		}
+	}
+
+Crear tu primera aplicación → python manage.py startapp nombre_app
+Registrar apliación (settings.py) → Añadir 'nombre_app', en la lista INSTALLED_APPS
+
+Añadir la app a proyecto/urls.py:
+	
+	# BLOQUE A: Conectar las rutas de tu aplicación 
+	# Esto habilita: localhost:8000/nombre_app/ 
+	urlpatterns += [ path('nombre_app/', include('nombre_app.urls')), ] 
+	# BLOQUE B: Redireccionar la página de inicio 
+	# Esto hace que localhost:8000 te mande a -> localhost:8000/nombre_app/ urlpatterns += [ path('', RedirectView.as_view(url='nombre_app/', permanent=True)), ]
+
+
+
+
+
+
+Crear el app/urls:
+	
+	from django.urls import path
+	from . import views
+
+urlpatterns = [
+    # Ruta vacía DENTRO de la app (equivale a /nombre_app/)
+    # Llama index a esta url, y ejecuta views.index
+    path('', views.index, name='index'), 
+]
+
+
+
+
+
+Crear modelos en nombre_app/models.py(ejemplo):
+
+from django.db import models
+
+class Pelicula(models.Model):
+    # Campo de texto corto (ej: Título, Nombre) - Requiere max_length
+    titulo = models.CharField(max_length=200)
+    
+    # Campo de texto largo (ej: Resumen, Descripción)
+    sinopsis = models.TextField()
+    
+    # Campo numérico entero (ej: Año, Edad, Cantidad)
+    duracion_minutos = models.IntegerField()
+    
+    # Campo de fecha (ej: Cumpleaños, Estreno)
+    fecha_estreno = models.DateField()
+
+    # IMPORTANTE: Esto define cómo se ve el objeto en el panel de Admin
+    def __str__(self):
+        return self.titulo
+
+
+Hacer y aplicar migraciones si es necesario → python manage.py makemigrations + python manage.py migrate
+
+populate_catalog.py:
+
+
+Hacer visibles los modelos(nombre_app/admin.py) :
+
+from django.contrib import admin from .models import TuModelo 
+admin.site.register(TuModelo) (verás solo lo que devuelve el metodo _str__ de ese modelo)
+
+o
+
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'display_genre')
+    inlines = [BooksInstanceInline]
+(define como se verá)
+
+
+
+
+crear superusuario → python manage.py createsuperuserpr
+
+La url del /admin ya viene configurada en <nombre_proyecto>/urls.py
+
+
+	
+Sesiones (ya viene activado (INSTALLED_APPS Y MIDDLEWARE))
+	request.session funciona como un diccionario (request.session.get, request.session[x]=Y)
+	Hay que tener cuidado si modificas un dato dentro de un objeto ( valor ) del diccionariod django no detecta
+	el cambio y no lo actualiza, hay que hacer -> request.session.modified = True
