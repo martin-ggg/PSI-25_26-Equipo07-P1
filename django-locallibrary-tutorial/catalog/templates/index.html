@@ -1,9 +1,11 @@
 {% extends "base_generic.html" %}
+{% load static %}
 
 {% block title %}
 <title>Local Library Home by MG</title>
 {% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/frontpage-styles.css' %}">
 <h1>Local Library Home</h1>
 <p>
     Welcome to LocalLibrary, a website developed by
@@ -11,15 +13,14 @@
 </p>
 <h2>Dynamic content</h2>
 <p>The library has the following record counts:</p>
-<ul>
+<ol class="lista-cajas">
     <li><strong>Books:</strong> {{ num_books }}</li>
     <li><strong>Copies:</strong> {{ num_instances }}</li>
     <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
     <li><strong>Authors:</strong> {{ num_authors }}</li>
     <li><strong>Genres:</strong> {{ num_genres }}</li>
     <li><strong>Books containing the letter '{{ word_to_search }}' in the title:</strong> {{ num_books_contain }}</li>
-    <li><strong>Genres with "{{ word_to_search }}" in the name:</strong> {{ num_genre_contain }}</li>
-</ul>
+</ol>
 <p>
   You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.
 </p>

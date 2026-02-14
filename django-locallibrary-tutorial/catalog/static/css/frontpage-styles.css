@@ -1,0 +1,19 @@
+/*pegado a la iquierda*/
+.lista-cajas {
+    padding-left: 0;
+}
+
+.lista-cajas li {
+    background-color: #e3f2fd; /* Fondo azul muy clarito */
+    border: 2px solid #2196f3; /* Borde azul más fuerte */
+    
+    /* ESTA ES LA CLAVE: */
+    /* "inside" mete el número DENTRO de la caja (del borde) */
+    list-style-position: inside; 
+    
+    margin-bottom: 10px;       /* Separación entre una caja y otra */
+    padding: 10px;             /* Espacio interior para que el texto no toque el borde */
+    border-radius: 8px;        /* Redondeamos un poco las esquinas */
+    font-weight: bold;         /* Texto en negrita */
+    width: 300px;              /* Limitamos el ancho (opcional) */
+}
