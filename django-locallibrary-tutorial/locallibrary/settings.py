@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog.apps.CatalogConfig' #la aplicacion catalogo que hemos creado
+    'catalog.apps.CatalogConfig' ,#la aplicacion catalogo que hemos creado
     'django_extensions',#para hacer la lista de urls
 ]
 
