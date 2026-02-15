@@ -23,8 +23,8 @@
 
                     {% if user.is_authenticated %}
                         <li>
-                            <form id="logout-form" method="post" action="{% url 'logout' %}"></form>
-                                {% csrf_token %}
+                            <form id="logout-form" method="post" action="{% url 'logout' %}">{% csrf_token %}</form>
+                                
                                 <button type="submit" form="logout-form" class="btn btn-danger">Logout </button></li>
                     {% else %}
                         <li>
