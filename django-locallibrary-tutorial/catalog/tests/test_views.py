@@ -323,7 +323,11 @@ class AuthorCreateViewTest(TestCase):
         response = self.client.get(reverse('author-create'))
         self.assertEqual(response.status_code, 403)
 
-    def test_logged_in_with_permission_uses_correct_template(self):
+    def test_logged_in_with_permission(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        response = self.client.get(reverse('author-create'))
+
+    def test_uses_correct_template(self):
         login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
         response = self.client.get(reverse('author-create'))
 
@@ -332,7 +336,7 @@ class AuthorCreateViewTest(TestCase):
         # Check we used correct template
         self.assertTemplateUsed(response, 'catalog/author_form.html')
 
-    def test_form_initial_date_of_death(self):
+    def test_form_date_of_death_initially_set_to_expected_date(self):
         login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
         response = self.client.get(reverse('author-create'))
         self.assertEqual(response.status_code, 200)
