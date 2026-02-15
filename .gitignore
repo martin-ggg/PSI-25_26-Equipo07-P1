@@ -220,7 +220,7 @@ basic-django.png
 flujo-github.png
 
 #variables de entorno
-.env
+#.env
 
 #archivos compilados
 *.pyc
