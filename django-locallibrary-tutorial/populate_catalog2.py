@@ -8,20 +8,19 @@ Extended by MG
 EPS-UAM 2026
 """
 
+import warnings
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
+from catalog.models import Book, BookInstance, Language, Genre, Author
+import django
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'locallibrary.settings')
 
-import django
 django.setup()
 
-from catalog.models import Book, BookInstance, Language, Genre, Author
-
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Permission
-import warnings
 
 # Dummy Privileged user for restricted operations: Library Supervisor
-DP_USER     = "LibSupervisor"
+DP_USER = "LibSupervisor"
 DP_PASSWORD = "LibSupervisor_234"
 
 
@@ -61,18 +60,44 @@ def populate():
     # --- Authors (original + extra real authors) ---
     authors = [
         # Original authors
-        {'first_name': 'Stephen', 'last_name': 'King', 'date_of_birth': '1947-09-21', 'date_of_death': ''},
-        {'first_name': 'Isaac', 'last_name': 'Asimov', 'date_of_birth': '1920-01-02', 'date_of_death': '1992-05-06'},
+        {'first_name': 'Stephen', 'last_name': 'King',
+            'date_of_birth': '1947-09-21', 'date_of_death': ''},
+        {'first_name': 'Isaac',
+         'last_name': 'Asimov',
+         'date_of_birth': '1920-01-02',
+         'date_of_death': '1992-05-06'},
 
         # Extra real authors
-        {'first_name': 'George', 'last_name': 'Orwell', 'date_of_birth': '1903-06-25', 'date_of_death': '1950-01-21'},
-        {'first_name': 'Jane', 'last_name': 'Austen', 'date_of_birth': '1775-12-16', 'date_of_death': '1817-07-18'},
-        {'first_name': 'Agatha', 'last_name': 'Christie', 'date_of_birth': '1890-09-15', 'date_of_death': '1976-01-12'},
-        {'first_name': 'J.R.R.', 'last_name': 'Tolkien', 'date_of_birth': '1892-01-03', 'date_of_death': '1973-09-02'},
-        {'first_name': 'J.K.', 'last_name': 'Rowling', 'date_of_birth': '1965-07-31', 'date_of_death': ''},
-        {'first_name': 'Gabriel', 'last_name': 'García Márquez', 'date_of_birth': '1927-03-06', 'date_of_death': '2014-04-17'},
-        {'first_name': 'Haruki', 'last_name': 'Murakami', 'date_of_birth': '1949-01-12', 'date_of_death': ''},
-        {'first_name': 'Mary', 'last_name': 'Shelley', 'date_of_birth': '1797-08-30', 'date_of_death': '1851-02-01'},
+        {'first_name': 'George',
+         'last_name': 'Orwell',
+         'date_of_birth': '1903-06-25',
+         'date_of_death': '1950-01-21'},
+        {'first_name': 'Jane',
+         'last_name': 'Austen',
+         'date_of_birth': '1775-12-16',
+         'date_of_death': '1817-07-18'},
+        {'first_name': 'Agatha',
+         'last_name': 'Christie',
+         'date_of_birth': '1890-09-15',
+         'date_of_death': '1976-01-12'},
+        {'first_name': 'J.R.R.',
+         'last_name': 'Tolkien',
+         'date_of_birth': '1892-01-03',
+         'date_of_death': '1973-09-02'},
+        {'first_name': 'J.K.',
+         'last_name': 'Rowling',
+         'date_of_birth': '1965-07-31',
+         'date_of_death': ''},
+        {'first_name': 'Gabriel',
+         'last_name': 'García Márquez',
+         'date_of_birth': '1927-03-06',
+         'date_of_death': '2014-04-17'},
+        {'first_name': 'Haruki', 'last_name': 'Murakami',
+            'date_of_birth': '1949-01-12', 'date_of_death': ''},
+        {'first_name': 'Mary',
+         'last_name': 'Shelley',
+         'date_of_birth': '1797-08-30',
+         'date_of_death': '1851-02-01'},
     ]
 
     # Helper to reference author names cleanly
@@ -80,7 +105,8 @@ def populate():
         return {'first_name': fn, 'last_name': ln}
 
     # --- Books (original + extra real books) ---
-    # NOTE: Ensure 'genre' is ALWAYS a list to avoid accidental per-character iteration.
+    # NOTE: Ensure 'genre' is ALWAYS a list to avoid accidental per-character
+    # iteration.
     books = [
         # Original books
         {
@@ -192,7 +218,8 @@ def populate():
     ]
 
     # --- BookInstances ---
-    # Original had 5 instances. We generate MANY more (>= 300% more than original, i.e., >= 20).
+    # Original had 5 instances. We generate MANY more (>= 300% more than
+    # original, i.e., >= 20).
     book_instances = []
 
     def add_instances_for_book(title, base_imprint, due_back_1='2026-03-10'):
@@ -249,17 +276,24 @@ def populate():
 
     # --- Insert books ---
     for bo in books:
-        t    = bo['title']
-        s    = bo['summary']
-        isb  = bo['isbn']
-        l    = bo['language']
-        g    = bo['genre']
+        t = bo['title']
+        s = bo['summary']
+        isb = bo['isbn']
+        l = bo['language']
+        g = bo['genre']
         a_fn = bo['author']['first_name']
         a_ln = bo['author']['last_name']
 
-        aut  = Author.objects.filter(first_name__contains=a_fn, last_name__contains=a_ln).first()
+        aut = Author.objects.filter(
+            first_name__contains=a_fn,
+            last_name__contains=a_ln).first()
         lang = Language.objects.filter(name__contains=l).first()
-        new_book = Book(title=t, isbn=isb, summary=s, author=aut, language=lang)
+        new_book = Book(
+            title=t,
+            isbn=isb,
+            summary=s,
+            author=aut,
+            language=lang)
         new_book.save()  # save before M2M
 
         for ge in g:
@@ -272,7 +306,7 @@ def populate():
     # --- Insert book instances ---
     for bi in book_instances:
         bok = Book.objects.filter(title__contains=bi['book']).first()
-        db  = None if not bi['due_back'] else bi['due_back']
+        db = None if not bi['due_back'] else bi['due_back']
         new_book_instance = BookInstance(
             book=bok,
             imprint=bi['imprint'],
@@ -290,7 +324,11 @@ def create_dummy_privileged_user():
     u.is_staff = True
 
     try:
-        for codename in ['add_book', 'change_book', 'delete_book', 'can_mark_returned']:
+        for codename in [
+            'add_book',
+            'change_book',
+            'delete_book',
+                'can_mark_returned']:
             permission = Permission.objects.get(codename=codename)
             u.user_permissions.add(permission)
     except Permission.DoesNotExist:
@@ -300,7 +338,8 @@ def create_dummy_privileged_user():
 
     u.save()
 
-    # Borrower example: assign the first instance of "The Shining" to the dummy user
+    # Borrower example: assign the first instance of "The Shining" to the
+    # dummy user
     bi = BookInstance.objects.filter(book__title='The Shining').first()
     if bi is not None:
         bi.borrower = u
