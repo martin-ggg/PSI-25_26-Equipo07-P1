@@ -6,5 +6,8 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
-python manage.py createsuperuser alumnodb alumnodb
+export DJANGO_SUPERUSER_USERNAME=alumnodb
+export DJANGO_SUPERUSER_PASSWORD=alumnodb
+export DJANGO_SUPERUSER_EMAIL=admin@example.com
+python manage.py createsuperuser --no-input
 python populate_catalog2.py
