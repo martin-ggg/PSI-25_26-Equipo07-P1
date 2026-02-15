@@ -217,6 +217,10 @@ djangoenv/
 
 #foto de la estructura del proyecto
 basic-django.png
-
-#chuleata de github
 flujo-github.png
+
+#variables de entorno
+.env
+
+#archivos compilados
+*.pyc
